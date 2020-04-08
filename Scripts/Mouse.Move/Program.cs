@@ -16,7 +16,7 @@ namespace Mouse.Move
         {
             // 隐藏或显示cmd窗口
             var cmdWindow = Win32Utils.GetConsoleWindow();
-            Win32Utils.ShowWindow(cmdWindow, Win32Constants.SW_SHOW);
+            Win32Utils.ShowWindow(cmdWindow, Win32Constants.SW_HIDE);
             int i = 1;
             // 死循环保持屏幕常量
             while (true)

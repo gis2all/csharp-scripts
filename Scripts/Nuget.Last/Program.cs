@@ -23,6 +23,11 @@ namespace Nuget.Last
                     if (!System.IO.Directory.Exists(currentDailyBuild))
                     {
                         Directory.Delete(targetNugetDir, true);
+                        Console.WriteLine("Get the last nuget package!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nuget package is not changed!");
                     }
                 }
             }
@@ -30,8 +35,7 @@ namespace Nuget.Last
             {
                 Directory.Delete(targetNugetDir, true);
             }
-            // Console.WriteLine("...");
-            // Console.ReadKey();
+
         }
     }
 }
