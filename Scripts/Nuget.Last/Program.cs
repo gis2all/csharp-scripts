@@ -1,15 +1,16 @@
 ﻿using System;
+using System.IO;
 
 namespace Nuget.Last
 {
-    // 使用DotNet as script插件可以在Jenkins使用C#脚本
+    // 获取最新的Nuget
     public class Program
     {
         public static void Main(string[] args)
         {
             var file = @"E:\Applications\DotNet\WinDesktop\Apps\arcgis-earth\source\Directory.Build.props";
             var targetNugetDir = @"C:\Users\chao9441\.nuget\packages\esri.arcgisruntime.wpf\";
-            if (System.IO.File.Exists(file))
+            if (File.Exists(file))
             {
                 var text = System.IO.File.ReadAllText(file);
                 var splitStr = text.Split("Version=");
@@ -21,14 +22,16 @@ namespace Nuget.Last
                     // 如果不存在则删除整个文件夹，这样可以获取最新的Nuget包
                     if (!System.IO.Directory.Exists(currentDailyBuild))
                     {
-                        System.IO.Directory.Delete(targetNugetDir, true);
+                        Directory.Delete(targetNugetDir, true);
                     }
                 }
             }
             else
             {
-                System.IO.Directory.Delete(targetNugetDir, true);
+                Directory.Delete(targetNugetDir, true);
             }
+            // Console.WriteLine("...");
+            // Console.ReadKey();
         }
     }
 }
