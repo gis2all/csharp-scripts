@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.2.0.20200208" />
+    <PackageReference Include="PInvoke.Gdi32" Version="0.6.6" />
+    <PackageReference Include="PInvoke.User32" Version="0.6.6" />
   </ItemGroup>
 
 </Project>

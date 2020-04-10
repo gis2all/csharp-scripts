@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PInvoke;
+using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows;
@@ -14,22 +15,20 @@ namespace Mouse.Move
         /// </summary>
         static void Main(string[] args)
         {
-            // 隐藏或显示cmd窗口
-            var cmdWindow = Win32Utils.GetConsoleWindow();
-            Win32Utils.ShowWindow(cmdWindow, Win32Constants.SW_HIDE);
+            // 隐藏或显示cmd窗口            
+            var cmdWindow = Kernel32.GetConsoleWindow();
+            User32.ShowWindow(cmdWindow, User32.WindowShowStyle.SW_HIDE);
             int i = 1;
             // 死循环保持屏幕常量
             while (true)
             {
                 if (i % 2 == 0)
                 {
-                    Win32Utils.MouseEvent(Win32Constants.MOUSEEVENTF_MOVE, 2, 0, 0, 0);
-
-
+                    User32.mouse_event(User32.mouse_eventFlags.MOUSEEVENTF_MOVE, 2, 0, 0, IntPtr.Zero);
                 }
                 else
                 {
-                    Win32Utils.MouseEvent(Win32Constants.MOUSEEVENTF_MOVE, -2, 0, 0, 0);
+                    User32.mouse_event(User32.mouse_eventFlags.MOUSEEVENTF_MOVE, -2, 0, 0, IntPtr.Zero);
                 }
                 KeepInScreen();
                 // 每隔5分钟移动鼠标
@@ -41,18 +40,18 @@ namespace Mouse.Move
         private static void KeepInScreen()
         {
             var screenSize = Screenshot.GetScreenPhysicalSzie();
-            var arrowPoint = new Point(0, 0);
-            Win32Utils.GetCursorPos(ref arrowPoint);
+            PInvoke.POINT arrowPoint;
+            User32.GetCursorPos(out arrowPoint);
             // 超出边界则回到屏幕中心
-            if (arrowPoint.X > 10 && arrowPoint.X <= screenSize.Width - 10)
+            if (arrowPoint.x > 10 && arrowPoint.x <= screenSize.Width - 10)
             {
                 return;
             }
             else
             {
-                arrowPoint.X = screenSize.Width / 2;
+                arrowPoint.x = screenSize.Width / 2;
             }
-            Win32Utils.MouseEvent(Win32Constants.MOUSEEVENTF_MOVE, screenSize.Width / 2, 0, 0, 0);
+            User32.mouse_event(User32.mouse_eventFlags.MOUSEEVENTF_MOVE, screenSize.Width / 2, 0, 0, IntPtr.Zero);
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿using System;
+﻿using PInvoke;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Text;
+using static PInvoke.Gdi32;
+using static PInvoke.User32;
 
 namespace Utils.Core
 {
@@ -44,59 +47,60 @@ namespace Utils.Core
         // 桌面窗口的截图对象
         private Image CaptureScreen()
         {
-            return CaptureWindow(Win32Utils.GetDesktopWindow());
+            return CaptureWindow(User32.GetDesktopWindow());
+
         }
 
         // 特定窗口的截图对象
         private Image CaptureWindow(IntPtr handle)
         {
             // 获得目标窗口的hDC          
-            IntPtr hdcSrc = Win32Utils.GetWindowDC(handle);
-
+            SafeDCHandle hdcSrc = User32.GetWindowDC(handle);
             var screenSize = GetScreenPhysicalSzie();
-
             // create a device context we can copy to
-            IntPtr hdcDest = GDI32Utils.CreateCompatibleDC(hdcSrc);
+            var hdcDest = Gdi32.CreateCompatibleDC(hdcSrc);
             // create a bitmap we can copy it to,
             // using GetDeviceCaps to get the width/height
-            IntPtr hBitmap = GDI32Utils.CreateCompatibleBitmap(hdcSrc, screenSize.Width, screenSize.Height);
+            IntPtr hBitmap = Gdi32.CreateCompatibleBitmap(hdcSrc, screenSize.Width, screenSize.Height);
             // select the bitmap object
-            IntPtr hOld = GDI32Utils.SelectObject(hdcDest, hBitmap);
+            IntPtr hOld = Gdi32.SelectObject(hdcDest, hBitmap);
             // bitblt over
-            GDI32Utils.BitBlt(hdcDest, 0, 0, screenSize.Width, screenSize.Height, hdcSrc, 0, 0, GDI32Utils.SRCCOPY);
+            Gdi32.BitBlt(hdcDest.HWnd, 0, 0, screenSize.Width, screenSize.Height, hdcSrc.HWnd, 0, 0, WindowsAPIUtils.SRCCOPY);
             // restore selection
-            GDI32Utils.SelectObject(hdcDest, hOld);
+            Gdi32.SelectObject(hdcDest, hOld);
             // clean up
-            GDI32Utils.DeleteDC(hdcDest);
-            Win32Utils.ReleaseDC(handle, hdcSrc);
+            Gdi32.DeleteDC(hdcDest);
+            User32.ReleaseDC(handle, hdcSrc.HWnd);
             // get a .NET image object for it
             Image img = Image.FromHbitmap(hBitmap);
             // free up the Bitmap object
-            GDI32Utils.DeleteObject(hBitmap);
+            Gdi32.DeleteObject(hBitmap);
             return img;
         }
 
         private static float GetScreenDisplayScale()
         {
+
             Graphics g = Graphics.FromHwnd(IntPtr.Zero);
             IntPtr desktop = g.GetHdc();
-            int LogicalScreenHeight = Win32Utils.GetDeviceCaps(desktop, (int)Win32Constants.DeviceCap.VERTRES);
-            int PhysicalScreenHeight = Win32Utils.GetDeviceCaps(desktop, (int)Win32Constants.DeviceCap.DESKTOPVERTRES);
+            var screenSafeDC = new SafeDCHandle(IntPtr.Zero, desktop);
+            int LogicalScreenHeight = Gdi32.GetDeviceCaps(screenSafeDC, DeviceCap.VERTRES);
+            int PhysicalScreenHeight = Gdi32.GetDeviceCaps(screenSafeDC, DeviceCap.DESKTOPVERTRES);
             float ScreenScalingFactor = float.Parse(((float)PhysicalScreenHeight / (float)LogicalScreenHeight).ToString("0.00"));
             return ScreenScalingFactor; // 1.25 = 125%
         }
 
         public static Size GetScreenPhysicalSzie()
         {
-            var desktopHwd = Win32Utils.GetDesktopWindow();
+            var desktopHwd = User32.GetDesktopWindow();
 
             // 获取分辨率，这里是缩放后的尺寸，比如显示器物理尺寸是1920x1080，缩放200%就是960x540
             // 这里得到的是960x540的尺寸
-            Win32Utils.RECT windowRect = new Win32Utils.RECT();
-            Win32Utils.GetWindowRect(desktopHwd, ref windowRect);
+            // User32.layout            
+            RECT windowRect = new RECT();
+            User32.GetWindowRect(desktopHwd, out windowRect);
 
             var factor = GetScreenDisplayScale();
-
             int width = (int)((windowRect.right - windowRect.left) * factor);
             int height = (int)((windowRect.bottom - windowRect.top) * factor);
             return new Size(width, height);

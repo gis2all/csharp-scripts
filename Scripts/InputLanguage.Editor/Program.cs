@@ -1,5 +1,6 @@
 ﻿using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using PInvoke;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,6 +8,8 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading;
 using Utils;
+using static PInvoke.User32;
+using static Utils.WindowsAPIUtils;
 
 namespace InputLanguage.Editor
 {
@@ -45,14 +48,15 @@ namespace InputLanguage.Editor
         private static List<string> GegerateLanguageScreenshots(int languageCount)
         {
             // 按住Win键
-            Win32Utils.OperateKey(KeyBoardConstant.vKeyLeftWin, KeyBoardConstant.KeyStatus.Press);
+
+            WindowsAPIUtils.OperateKey(VirtualKey.VK_LWIN, KeyStatus.Press);
 
             // 截图List
             var screenshotList = new List<string>();
             for (int i = 0; i < languageCount; i++)
             {
                 // 点击空格键 
-                Win32Utils.OperateKey(KeyBoardConstant.vKeySpace, KeyBoardConstant.KeyStatus.Click);
+                WindowsAPIUtils.OperateKey(VirtualKey.VK_SPACE, KeyStatus.Click);
                 // 获取屏幕语言区域截图
                 var screenshot = FileUtils.GetProjectPath() + @$"output\screenshot_{i + 1}.png";
                 ImageHelper.SaveLanguageAreaShot(screenshot);
@@ -61,7 +65,7 @@ namespace InputLanguage.Editor
                 Thread.Sleep(TimeSpan.FromSeconds(2));
             }
             // 释放Win键
-            Win32Utils.OperateKey(KeyBoardConstant.vKeyLeftWin, KeyBoardConstant.KeyStatus.Release);
+            WindowsAPIUtils.OperateKey(VirtualKey.VK_LWIN, KeyStatus.Release);
             return screenshotList;
         }
 
@@ -105,17 +109,17 @@ namespace InputLanguage.Editor
             }
 
             // 这说明在第index次时，所选的语言和预期一样，所以需要按住Win+Space键选择一次
-            Win32Utils.OperateKey(KeyBoardConstant.vKeyLeftWin, KeyBoardConstant.KeyStatus.Press);
+            WindowsAPIUtils.OperateKey(VirtualKey.VK_LWIN, KeyStatus.Press);
             for (int i = 0; i < languageCount; i++)
             {
-                Win32Utils.OperateKey(KeyBoardConstant.vKeySpace, KeyBoardConstant.KeyStatus.Click);
+                WindowsAPIUtils.OperateKey(VirtualKey.VK_SPACE, KeyStatus.Click);
                 Thread.Sleep(TimeSpan.FromSeconds(2));
                 if (i == index)
                 {
                     break;
                 }
             }
-            Win32Utils.OperateKey(KeyBoardConstant.vKeyLeftWin, KeyBoardConstant.KeyStatus.Release);
+            WindowsAPIUtils.OperateKey(VirtualKey.VK_LWIN, KeyStatus.Release);
         }
     }
 }
