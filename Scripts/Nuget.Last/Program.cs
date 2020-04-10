@@ -8,6 +8,7 @@ namespace Nuget.Last
     {
         public static void Main(string[] args)
         {
+            // 替换成你自己的路径
             var file = @"E:\Applications\DotNet\WinDesktop\Apps\arcgis-earth\source\Directory.Build.props";
             var targetNugetDir = @"C:\Users\chao9441\.nuget\packages\esri.arcgisruntime.wpf\";
             if (File.Exists(file))
