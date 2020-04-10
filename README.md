@@ -9,4 +9,5 @@
 |Image.Sililarity | 使用SSIM指数对比图片相似度 |
 |InputLanguage.Editor | 自动设置系统默认输入法 |
 |Mouse.Move | 保持屏幕常亮 |
+|Nuget.Last|获取最新Nuget包|
 |Utils |工具类，封装其他工程需要的工具 |
