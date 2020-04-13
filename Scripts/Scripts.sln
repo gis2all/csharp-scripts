@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InputLanguage.Editor", "Inp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nuget.Last", "Nuget.Last\Nuget.Last.csproj", "{2296A33C-0A44-484A-9C1F-8DBACE1B37E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSV.RowColumn", "CSV.RowColumn\CSV.RowColumn.csproj", "{21858197-C897-416E-B599-C4B46E2FF23E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csv.RowColumn", "CSV.RowColumn\Csv.RowColumn.csproj", "{21858197-C897-416E-B599-C4B46E2FF23E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
