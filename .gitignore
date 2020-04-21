@@ -14,8 +14,8 @@
 *.sln.docstates
 *.vs
 
-# Image output folder
-[Oo]ut[Pp]ut/
+# Image output files
+[Oo]ut[Pp]ut/*
 
 # Build results
 .vs/
