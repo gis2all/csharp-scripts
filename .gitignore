@@ -15,7 +15,7 @@
 *.vs
 
 # Image output files
-[Oo]ut[Pp]ut/*
+*[Oo]ut[Pp]ut/*
 
 # Build results
 .vs/
