@@ -20,7 +20,7 @@ namespace Utils
         public static void CreateDir(string filePath)
         {
             var dir = Path.GetDirectoryName(filePath);
-            if (Directory.Exists(dir))
+            if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }
