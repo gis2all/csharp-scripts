@@ -23,28 +23,16 @@ namespace InputLanguage.Editor
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            try
-            {
-                // 你想要设定的输入法，自己截图替换
-                var sourceImage = FileUtils.GetProjectPath() + @"images\0.png";
-                // 系统默认已安装输入法的数量
-                int languageCount = 4;
-                // 获取所有语言的屏幕截图
-                var screenshots = GegerateLanguageScreenshots(languageCount);
-                // 获取和标准文件匹配的新图像
-                var rois = GetLanguageROIs(sourceImage, screenshots);
-                // 对比设置默认语言
-                SetDaultLanguage(sourceImage, rois, languageCount);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                // 为避免出现Win键一直按着，最后总要释放
-                WindowsAPIUtils.OperateKey(VirtualKey.VK_LWIN, KeyStatus.Release);
-            }
+            // 你想要设定的输入法,因为每个人电脑颜色不一致,需要仿照0.png自己截图替换
+            var sourceImage = FileUtils.GetProjectPath() + @"images\0.png";
+            // 系统默认已安装输入法的数量
+            int languageCount = 4;
+            // 获取所有语言的屏幕截图
+            var screenshots = GegerateLanguageScreenshots(languageCount);
+            // 获取和标准文件匹配的新图像
+            var rois = GetLanguageROIs(sourceImage, screenshots);
+            // 对比设置默认语言
+            SetDaultLanguage(sourceImage, rois, languageCount);
         }
 
         private static List<string> GegerateLanguageScreenshots(int languageCount)
