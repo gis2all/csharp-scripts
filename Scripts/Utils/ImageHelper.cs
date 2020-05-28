@@ -93,5 +93,11 @@ namespace Utils
             // 注意，不能同时设置destinationX，destinationY和image size，否则截图会黑屏
             screenshot.CaptureAreaToFile(screenshotFile, sourceX, sourceY, 0, 0, imageSize, ImageFormat.Png);
         }
+
+        public static System.Drawing.Size GetImageSize(string imageFile)
+        {
+            var image = Image.FromFile(imageFile);
+            return image.Size;
+        }
     }
 }
