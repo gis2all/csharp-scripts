@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nuget.Last", "Nuget.Last\Nu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.RowColumn", "CSV.RowColumn\Csv.RowColumn.csproj", "{21858197-C897-416E-B599-C4B46E2FF23E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Image.ToPPT", "Image.ToPPT\Image.ToPPT.csproj", "{CD986B7A-239D-41AF-81F0-E15C875F7A82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Image.ToPPT", "Image.ToPPT\Image.ToPPT.csproj", "{CD986B7A-239D-41AF-81F0-E15C875F7A82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

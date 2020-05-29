@@ -17,6 +17,13 @@
 # Image output files
 *[Oo]utput/*
 
+# PPT files
+*.ppt
+*.pptx
+
+# output Folder
+[Oo]ut[Pp]ut/
+
 # Build results
 .vs/
 [Dd]ebug/

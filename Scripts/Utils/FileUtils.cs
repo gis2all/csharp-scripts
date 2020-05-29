@@ -1,10 +1,17 @@
 ﻿using CsvHelper;
+using Microsoft.Office.Core;
+using Microsoft.Office.Interop.PowerPoint;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Utils.Core;
 
 namespace Utils
@@ -96,6 +103,125 @@ namespace Utils
             var uniqeDateList = dateList.Distinct().ToList();
             uniqeDateList.Sort();
             return uniqeDateList;
+        }
+
+        public static List<string> GetImageFilesPath(string folderName)
+        {
+            if (!Directory.Exists(folderName))
+            {
+                throw new Exception($"{folderName} doesn't exist!");
+            }
+            var ImageFiles = Directory.EnumerateFiles(folderName).Where(f => f.EndsWith(".jpg") ||
+                  f.EndsWith(".jpeg") || f.EndsWith(".png") || f.EndsWith(".bmp") || f.EndsWith(".tif") || f.EndsWith(".tiff"));
+            return ImageFiles.ToList();
+        }
+
+        public static System.Drawing.Size GetScaleSize(Size imageSize, Size slideSize)
+        {
+            var scaleWidth = 0.0f;
+            var scaleHeight = 0.0f;
+            var scale = (double)imageSize.Height / (double)imageSize.Width;
+            if (imageSize.Width > imageSize.Height)
+            {
+                if (imageSize.Width > slideSize.Width)
+                {
+                    scaleWidth = slideSize.Width;
+                    scaleHeight = (float)(scaleWidth * scale);
+                    if (scaleHeight > slideSize.Height)
+                    {
+                        scaleHeight = slideSize.Height;
+                        scaleWidth = (float)(scaleHeight / scale);
+                    }
+                }
+                else
+                {
+                    scaleWidth = imageSize.Width;
+                    scaleHeight = imageSize.Height;
+                }
+            }
+            else
+            {
+                if (imageSize.Height > slideSize.Height)
+                {
+                    scaleHeight = slideSize.Height;
+                    scaleWidth = (float)(scaleHeight / scale);
+                    if (scaleWidth > slideSize.Width)
+                    {
+                        scaleWidth = slideSize.Width;
+                        scaleHeight = (float)(scaleWidth * scale);
+                    }
+                }
+                else
+                {
+                    scaleWidth = imageSize.Width;
+                    scaleHeight = imageSize.Height;
+                }
+            }
+            return new Size((int)scaleWidth, (int)scaleHeight);
+        }
+
+        public static void SaveAsPPTFromImages(string imageFolder, string pptName)
+        {
+            var task = Task.Factory.StartNew(() =>
+            {
+                Application pptApp = new Application();
+                Presentations pptPres = pptApp.Presentations;
+                Presentation pptPre = pptPres.Add(MsoTriState.msoFalse);
+
+                var imagesName = GetImageFilesPath(imageFolder);
+                for (int i = 0; i < imagesName.Count; i++)
+                {
+                    // Slide start from 1
+                    var slide = pptPre.Slides.Add(i + 1, PpSlideLayout.ppLayoutObject);
+                    var imageSize = ImageHelper.GetImageSize(imagesName[i]);
+                    var slideSize = new Size((int)slide.Master.Width, (int)slide.Master.Height);
+                    var scaleSize = FileUtils.GetScaleSize(imageSize, slideSize);
+                    AddPictureShape(slide, imagesName[i], scaleSize);
+                }
+
+                // Save it as a ppt file
+                pptPre.SaveAs(pptName, PpSaveAsFileType.ppSaveAsDefault, MsoTriState.msoCTrue);
+            });
+            task.Wait();
+        }
+
+        public static void AddPictureShape(Slide slide, string imageName, Size scaleSize)
+        {
+            // Set picture shape
+            var shape = slide.Shapes.AddPicture(imageName, MsoTriState.msoTrue, MsoTriState.msoTrue, 0, 0, scaleSize.Width, scaleSize.Height);
+            shape.Width = scaleSize.Width;
+            shape.Height = scaleSize.Height;
+            shape.Left = 0;
+            shape.Top = 0;
+        }
+
+        public static void SaveAsPDFFromImages(string imageFolder, string pdfName, double width = 600)
+        {
+            var task = Task.Factory.StartNew(() =>
+            {
+                var imagesName = GetImageFilesPath(imageFolder);
+                var document = new PdfDocument(pdfName);
+                for (int i = 0; i < imagesName.Count; i++)
+                {
+                    // PdfPage page = document.AddPage();                   
+                    PdfPage page = document.AddPage();
+                    var image = Image.FromFile(imagesName[i]);
+                    using (XImage img = XImage.FromGdiPlusImage(image))
+                    {
+                        // Calculate new height to keep image ratio
+                        var height = (int)(((double)width / (double)img.PixelWidth) * img.PixelHeight);
+
+                        // Change PDF Page size to match image
+                        page.Width = width;
+                        page.Height = height;
+
+                        XGraphics gfx = XGraphics.FromPdfPage(page);
+                        gfx.DrawImage(img, 0, 0, width, height);
+                    }
+                }
+                document.Save(pdfName);
+            });
+            task.Wait();
         }
     }
 }

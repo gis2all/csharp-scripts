@@ -6,7 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="15.0.4" />
+    <PackageReference Include="Microsoft.Office.Interop.PowerPoint" Version="15.0.4420.1017" />
+    <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.2.0.20200208" />
+    <PackageReference Include="PdfSharp" Version="1.32.3057" />
     <PackageReference Include="PInvoke.Gdi32" Version="0.6.6" />
     <PackageReference Include="PInvoke.User32" Version="0.6.6" />
   </ItemGroup>
