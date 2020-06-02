@@ -1,10 +1,10 @@
 Click to see Chinese [中文版README](README_zh.md)
 
-# project instruction
+# Project Instruction
 
 This project encapsulates some C# scripts, and each project has detailed instructions. For specific use cases, please refer to [My CSND Blog](https://blog.csdn.net/DynastyRumble)
 
-# function list
+# Function List
 
 | Project Name | Script Function |
 | -------------------- |-----------------------------|
