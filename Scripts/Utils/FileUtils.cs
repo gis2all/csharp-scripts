@@ -223,5 +223,18 @@ namespace Utils
             });
             task.Wait();
         }
+
+        public static void ReplaceFileContent(string filePath, string sourceContent, string targetContent)
+        {
+            if (File.Exists(filePath))
+            {
+                var content = File.ReadAllText(filePath);
+                if (content.Contains(sourceContent))
+                {
+                    var finalContent = content.Replace(sourceContent, targetContent);
+                    File.WriteAllText(filePath, finalContent);
+                }
+            }
+        }
     }
 }
