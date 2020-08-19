@@ -6,9 +6,11 @@
 
 # 功能列表
 
-| 工程名                |                     脚本作用|
+| 工程名                |脚本作用                     |
 | -------------------- |-----------------------------|
 | Csv.RowColumn        | Csv文件中日期和对应的值列转行 |
+| Directory.Replace    | 替换文件内容                 |
+| Highight.Element     | 高亮GUI测试中使用到的控件     |
 | Image.Sililarity     | 使用SSIM指数对比图片相似度    |
 | Image.ToPPT          | 批量图片转PPT文件
 | InputLanguage.Editor | 自动设置系统默认输入法        |

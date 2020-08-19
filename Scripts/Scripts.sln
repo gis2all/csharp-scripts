@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.RowColumn", "CSV.RowCol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Image.ToPPT", "Image.ToPPT\Image.ToPPT.csproj", "{CD986B7A-239D-41AF-81F0-E15C875F7A82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Directory.Replace", "Directory.Replace\Directory.Replace.csproj", "{E8A9057C-0579-478A-8B79-D5C96B34AE26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Directory.Replace", "Directory.Replace\Directory.Replace.csproj", "{E8A9057C-0579-478A-8B79-D5C96B34AE26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Highight.Element", "Highight.Element\Highight.Element.csproj", "{90801638-C525-4160-ABB3-97198234CB00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,14 @@ Global
 		{E8A9057C-0579-478A-8B79-D5C96B34AE26}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8A9057C-0579-478A-8B79-D5C96B34AE26}.Release|x64.ActiveCfg = Release|Any CPU
 		{E8A9057C-0579-478A-8B79-D5C96B34AE26}.Release|x64.Build.0 = Release|Any CPU
+		{90801638-C525-4160-ABB3-97198234CB00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90801638-C525-4160-ABB3-97198234CB00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90801638-C525-4160-ABB3-97198234CB00}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{90801638-C525-4160-ABB3-97198234CB00}.Debug|x64.Build.0 = Debug|Any CPU
+		{90801638-C525-4160-ABB3-97198234CB00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90801638-C525-4160-ABB3-97198234CB00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90801638-C525-4160-ABB3-97198234CB00}.Release|x64.ActiveCfg = Release|Any CPU
+		{90801638-C525-4160-ABB3-97198234CB00}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
