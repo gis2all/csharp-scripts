@@ -7,7 +7,7 @@ This project encapsulates some C# scripts, and each project has detailed instruc
 # Function List
 
 | Project Name         | Script Function                                           |
-| -------------------- |-----------------------------------------------------------|
+| :------------------- | :---------------------------------------------------------|
 | Csv.RowColumn        | Date and corresponding value column in Csv file to row    |
 | Directory.Replace    | Replace file content                                      |
 | Highight.Element     | Highlight the elements used in the GUI test               |
